@@ -1,0 +1,19 @@
+{
+  "name": "simulation-service",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ironman9967/simulation-service.git"
+  },
+  "author": "Tyson Hester",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ironman9967/simulation-service/issues"
+  },
+  "homepage": "https://github.com/ironman9967/simulation-service#readme"
+}
