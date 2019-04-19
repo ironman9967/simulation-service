@@ -1,19 +1,48 @@
 {
-  "name": "simulation-service",
-  "version": "0.0.1",
-  "description": "",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ironman9967/simulation-service.git"
-  },
-  "author": "Tyson Hester",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ironman9967/simulation-service/issues"
-  },
-  "homepage": "https://github.com/ironman9967/simulation-service#readme"
+	"name": "simulation-service",
+	"version": "0.0.1",
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "rm -rf dist && babel src -d dist",
+		"start": "npm run build && node dist/index.js",
+		"watch": "npm-watch"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ironman9967/simulation-service.git"
+	},
+	"author": "Tyson Hester",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/cli": "^7.2.3",
+		"@babel/core": "^7.3.4",
+		"@babel/preset-env": "^7.3.4",
+		"@babel/polyfill": "^7.4.3",
+		"npm-watch": "^0.6.0"
+	},
+	"dependencies": {
+		"ecs-parallel": "0.0.4"
+	},
+	"babel": {
+		"presets": [
+			"@babel/preset-env"
+		],
+		"plugins": [
+			"@babel/plugin-proposal-object-rest-spread"
+		]
+	},
+	"watch": {
+		"start": {
+			"patterns": [
+				"src"
+			],
+			"extensions": "js",
+			"quite": false
+		}
+	},
+	"bugs": {
+		"url": "https://github.com/ironman9967/simulation-service/issues"
+	},
+	"homepage": "https://github.com/ironman9967/simulation-service#readme"
 }
