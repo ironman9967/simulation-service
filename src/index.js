@@ -47,7 +47,7 @@ create(({
 		}
 	})
 	finished()
-}, async ({
+}, ({
 	createComponentCreator,
 	createEntityCreator,
 	createEntityFromObject,
