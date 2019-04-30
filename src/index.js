@@ -76,15 +76,15 @@ create(({
 		}
 	})
 
-	const go = async () => await time.run({ entities: [ gameloop ]})
+	const loop = async () => await time.run({ entities: [ gameloop ]})
 
-	const { subscribe: dataUpdated } = gameloop
+	const { subscribe: gameloopTicked } = gameloop
 		.getComponent({ componentId: 'elapsed' })
 		.observe
 		.filter(({ event }) => event == 'data-updated')
 
-	dataUpdated(() => go())
-	dataUpdated(() => increaseHunger.run({ entities: [ aHuman ] }))
+	gameloopTicked(() => loop())
+	gameloopTicked(() => increaseHunger.run({ entities: [ aHuman ] }))
 
 	const logSystem = system => log => system.observe
 		.filter(({ event }) => event == 'run-entity-complete')
@@ -98,7 +98,7 @@ create(({
 	logSystem(time)(console.log)
 	logSystem(increaseHunger)(console.log)
 
-	go()
+	loop()
 
 	setTimeout(dispose, 5000)
 })
