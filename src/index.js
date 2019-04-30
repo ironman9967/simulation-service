@@ -62,6 +62,7 @@ create(({
 	}).observe.filter(({
 		event
 	}) => event == 'data-updated').subscribe(console.log)
+	
 	increaseHunger.observe.filter(({
 		event
 	}) => event == 'system-job-complete').subscribe(console.log)
