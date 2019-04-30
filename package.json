@@ -15,14 +15,14 @@
 	"author": "Tyson Hester",
 	"license": "ISC",
 	"devDependencies": {
-		"@babel/cli": "^7.2.3",
-		"@babel/core": "^7.3.4",
-		"@babel/preset-env": "^7.3.4",
-		"@babel/polyfill": "^7.4.3",
+		"@babel/cli": "^7.4.4",
+		"@babel/core": "^7.4.4",
+		"@babel/polyfill": "^7.4.4",
+		"@babel/preset-env": "^7.4.4",
 		"npm-watch": "^0.6.0"
 	},
 	"dependencies": {
-		"ecs-parallel": "0.0.4"
+		"ecs-parallel": ">0.0.1"
 	},
 	"babel": {
 		"presets": [
