@@ -90,9 +90,9 @@ create(({
 		.filter(({ event }) => event == 'run-entity-complete')
 		.subscribe(({
 			systemId,
+			entity: { entityId },
 			meta: { timing: { duration } },
-			result,
-			entity: { entityId }
+			result
 		}) => log({ systemId, entityId, duration, result }))
 
 	logSystem(time)(console.log)
