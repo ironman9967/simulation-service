@@ -96,12 +96,12 @@ create(({
 		}) => log({ systemId, entityId, duration, result }))
 
 	logSystemRun(time)(({
-		...run,
-		result: { elapsed }
+		result: { elapsed },
+		...run
 	}) => console.log({ ...run, elapsed }))
 	logSystemRun(increaseHunger)(({
-		...run,
-		result: { foodAmtCurrent }
+		result: { foodAmtCurrent },
+		...run
 	}) => console.log({ ...run, foodAmtCurrent }))
 
 	loop()
