@@ -5,21 +5,30 @@ create(({
 	createSystem,
 	finished
 }) => {
-	const needsFoodFilter = [{
-		componentId: 'needsFood',
-		readonly: true
-	}, {
-		componentId: 'needsFoodAmt',
-		readonly: true
-	}, {
-		componentId: 'needsFoodTimeCurrent',
-		readonly: true
-	}, {
-		componentId: 'foodAmtCurrent'
-	}]
+	createSystem({
+		systemId: 'time',
+		filter: [
+			{ componentId: 'elapsed' },
+			{ componentId: 'tick', readonly: true }
+		],
+		run: ({ elapsed, tick }) => new Promise(resolve => setTimeout(() =>
+			resolve({ elapsed: elapsed + tick, tick }),
+			tick))
+	})
 	createSystem({
 		systemId: 'increaseHunger',
-		filter: needsFoodFilter,
+		filter: [{
+			componentId: 'needsFood',
+			readonly: true
+		}, {
+			componentId: 'needsFoodAmt',
+			readonly: true
+		}, {
+			componentId: 'needsFoodTimeCurrent',
+			readonly: true
+		}, {
+			componentId: 'foodAmtCurrent'
+		}],
 		run: ({
 			needsFood,
 			needsFoodAmt,
@@ -42,9 +51,19 @@ create(({
 	createComponentCreator,
 	createEntityCreator,
 	createEntityFromObject,
-	systems: { increaseHunger },
+	systems: {
+		time,
+		increaseHunger
+	},
 	dispose
 }) => {
+	const gameloop = createEntityFromObject({
+		entityId: 'gameloop',
+		obj: {
+			elapsed: 0,
+			tick: 500
+		}
+	})
 	const aHuman = createEntityFromObject({
 		entityId: 'human',
 		obj: {
@@ -57,22 +76,27 @@ create(({
 		}
 	})
 
-	aHuman.getComponent({
-		componentId: 'foodAmtCurrent'
-	}).observe.filter(({
-		event
-	}) => event == 'data-updated').subscribe(console.log)
-	
-	increaseHunger.observe.filter(({
-		event
-	}) => event == 'system-job-complete').subscribe(console.log)
+	const go = async () => await time.run({ entities: [ gameloop ]})
 
-	const go = async () => await increaseHunger.run({ entities: [ aHuman ]})
-	await go()
+	const { subscribe: dataUpdated } = gameloop
+		.getComponent({ componentId: 'elapsed' })
+		.observe
+		.filter(({ event }) => event == 'data-updated')
+	dataUpdated(() => go())
+	dataUpdated(() => increaseHunger.run({ entities: [ aHuman ] }))
 
-	// const going = setInterval(go, 2000)
-	// setTimeout(() => {
-		// clearInterval(going)
-		dispose()
-	// }, 20000)
+	const logSystem = system => log => system.observe
+		.filter(({ event }) => event == 'run-entity-complete')
+		.subscribe(({
+			systemId,
+			meta: { timing: { duration } },
+			result
+		}) => log({ systemId, duration, result }))
+
+	logSystem(time)(console.log)
+	logSystem(increaseHunger)(console.log)
+
+	go()
+
+	setTimeout(dispose, 5000)
 })
