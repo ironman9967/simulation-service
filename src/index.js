@@ -82,6 +82,7 @@ create(({
 		.getComponent({ componentId: 'elapsed' })
 		.observe
 		.filter(({ event }) => event == 'data-updated')
+
 	dataUpdated(() => go())
 	dataUpdated(() => increaseHunger.run({ entities: [ aHuman ] }))
 
@@ -90,8 +91,9 @@ create(({
 		.subscribe(({
 			systemId,
 			meta: { timing: { duration } },
-			result
-		}) => log({ systemId, duration, result }))
+			result,
+			entity: { entityId }
+		}) => log({ systemId, entityId, duration, result }))
 
 	logSystem(time)(console.log)
 	logSystem(increaseHunger)(console.log)
