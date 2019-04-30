@@ -86,7 +86,7 @@ create(({
 	gameloopTicked(() => loop())
 	gameloopTicked(() => increaseHunger.run({ entities: [ aHuman ] }))
 
-	const logSystem = system => log => system.observe
+	const logSystemRun = system => log => system.observe
 		.filter(({ event }) => event == 'run-entity-complete')
 		.subscribe(({
 			systemId,
@@ -95,8 +95,14 @@ create(({
 			result
 		}) => log({ systemId, entityId, duration, result }))
 
-	logSystem(time)(console.log)
-	logSystem(increaseHunger)(console.log)
+	logSystemRun(time)(({
+		result: { elapsed },
+		...run
+	}) => console.log({ ...run, elapsed }))
+	logSystemRun(increaseHunger)(({
+		result: { foodAmtCurrent },
+		...run
+	}) => console.log({ ...run, foodAmtCurrent }))
 
 	loop()
 
