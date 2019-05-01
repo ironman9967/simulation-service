@@ -22,7 +22,7 @@
 		"npm-watch": "^0.6.0"
 	},
 	"dependencies": {
-		"ecs-parallel": ">0.0.1"
+		"ecs-parallel": "^0.1.2"
 	},
 	"babel": {
 		"presets": [

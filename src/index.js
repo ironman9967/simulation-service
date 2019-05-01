@@ -85,6 +85,9 @@ create(({
 
 	gameloopTicked(() => loop())
 	gameloopTicked(() => increaseHunger.run({ entities: [ aHuman ] }))
+	gameloopTicked(({ newData: elapsed }) => elapsed >= 5000
+		? dispose()
+		: void 0)
 
 	const logSystemRun = system => log => system.observe
 		.filter(({ event }) => event == 'run-entity-complete')
@@ -105,6 +108,4 @@ create(({
 	}) => console.log({ ...run, foodAmtCurrent }))
 
 	loop()
-
-	setTimeout(dispose, 5000)
 })
